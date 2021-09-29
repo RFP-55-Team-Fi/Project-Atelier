@@ -1,0 +1,27 @@
+{
+  "name": "sdc-ratings-reviews",
+  "version": "1.0.0",
+  "description": "sdc",
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "pg": "^8.7.1",
+    "prettier": "^2.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews.git"
+  },
+  "author": "Aaron Tran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews/issues"
+  },
+  "homepage": "https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews#readme"
+}
