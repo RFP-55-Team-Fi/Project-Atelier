@@ -1,1 +1,1 @@
-module.exports = { code: 'INSERT_PW'};
+module.exports = { password: 'INSERT_PW'};
