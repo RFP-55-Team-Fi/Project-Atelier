@@ -1,9 +1,9 @@
 const { password } = require('./config.js');
-
 const { Pool } = require('pg');
+const database = 'postgres';
 const port = 5432;
 const pool = new Pool ({
-  database: 'postgres',
+  database: database,
   user: 'postgres',
   host: 'localhost',
   port: port,
@@ -12,7 +12,7 @@ const pool = new Pool ({
 
 pool.connect()
   .then(()=>{
-    console.log(`database connected on port:${port}`)
+    console.log(`Connected to database:${database} on port:${port}`)
   })
   .catch((err)=> {
     console.log(err);
