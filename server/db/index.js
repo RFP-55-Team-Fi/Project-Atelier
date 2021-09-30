@@ -13,5 +13,9 @@ const pool = new Pool ({
 })
 
 pool.connect()
+
+pool.on('error', (err, client) => {
+  console.error('Error:', err);
+});
 // creating my database object from the connection
-module.exports.db = pool.connect()
+module.exports= pool.connect()

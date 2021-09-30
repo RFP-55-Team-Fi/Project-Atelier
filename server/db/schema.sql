@@ -58,28 +58,49 @@ CREATE TABLE "characteristic_reviews" (
 );
 
 COPY products
-FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/products.csv'
+FROM '/Users/aarontran/Documents/data/product.csv'
 DELIMITER ','
 CSV HEADER;
 COPY reviews
-FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/reviews.csv'
+FROM '/Users/aarontran/Documents/data/reviews.csv'
 DELIMITER ','
 CSV HEADER;
 COPY photos
-FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/photos.csv'
+FROM '/Users/aarontran/Documents/data/photos.csv'
 DELIMITER ','
 CSV HEADER;
 COPY characteristics
-FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristics.csv'
+FROM '/Users/aarontran/Documents/data/characteristics.csv'
 DELIMITER ','
 CSV HEADER;
 COPY characteristic_reviews
-FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristic_reviews.csv'
+FROM '/Users/aarontran/Documents/data/characteristic_reviews.csv'
 DELIMITER ','
 CSV HEADER;
+-- COPY products
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/products.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- COPY reviews
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/reviews.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- COPY photos
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/photos.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- COPY characteristics
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristics.csv'
+-- DELIMITER ','
+-- CSV HEADER;
+-- COPY characteristic_reviews
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristic_reviews.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
 -- select * from products;
 -- select * from reviews;
 -- select * from photos;
 -- select * from characteritics;
 -- select * from characteristic_reviews;
+
