@@ -9,3 +9,5 @@
 - \l lists all the databases
 - \c <db name> connect to database
 - \i 'path to schema' to load schema file
+- \dt show tables
+- drop database <table name>

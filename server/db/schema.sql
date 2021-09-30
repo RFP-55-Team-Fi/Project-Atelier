@@ -1,63 +1,58 @@
--- To log in:
-  -- psql -d postgres -U postgres
-
--- To execute this file:
-  -- psql -h 127.0.0.1 -d postgress -f schema.sql
-
 DROP TABLE IF EXISTS characteristic_reviews;
 DROP TABLE IF EXISTS characteristics;
 DROP TABLE IF EXISTS photos;
 DROP TABLE IF EXISTS reviews;
-DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS products;
 
-
-CREATE TABLE product(
-  product_id SERIAL NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  slogan VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  category VARCHAR(50) NOT NULL,
-  default_price INT NOT NULL,
-  PRIMARY KEY(product_id)
-);
-CREATE TABLE reviews (
-  id SERIAL,
-  product_id INT,
-  rating INT,
-  date BIGINT,
-  summary TEXT,
-  body TEXT,
-  recommend BOOLEAN,
-  reported BOOLEAN,
-  reviewer_name VARCHAR(255),
-  reviewer_email VARCHAR(255),
-  response TEXT,
-  helpfulness INT,
-  PRIMARY KEY (id)
+CREATE TABLE "products" (
+  "id" int,
+  "name" varchar(255) not null,
+  "slogan" varchar(255),
+  "description" text,
+  "category" varchar(50),
+  "default_price" int,
+  PRIMARY KEY(id)
 );
 
+CREATE TABLE "reviews" (
+  "review_id" int,
+  "product_id" int,
+  "rating" int,
+  "date" bigint,
+  "summary" text,
+  "body" text,
+  "recommend" boolean,
+  "reported" boolean,
+  "reviewer_name" varchar(255),
+  "reviewer_email" varchar(255),
+  "response" text,
+  "helpfulness" int,
+  PRIMARY KEY(review_id),
+  FOREIGN KEY(product_id) REFERENCES products(id)
+);
 
-CREATE TABLE photos(
-  id SERIAL,
-  review_id INT NOT NULL,
-  url TEXT,
+CREATE TABLE "photos" (
+  "id" int,
+  "product_id" int,
+  "url" text,
+  "thumbnail_url" text,
   PRIMARY KEY(id),
-  FOREIGN KEY(review_id) REFERENCES reviews(review_id)
+  FOREIGN KEY(product_id) REFERENCES reviews(review_id)
 );
 
-CREATE TABLE characteristics(
-  id SERIAL NOT NULL,
-  product_id INT NOT NULL,
-  name VARCHAR NOT NULL,
+CREATE TABLE "characteristics" (
+  "id" int,
+  "product_id" int,
+  "name" varchar,
   PRIMARY KEY(id),
-  FOREIGN KEY(product_id) REFERENCES product(product_id)
+  FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
-CREATE TABLE characteristic_reviews(
-  id SERIAL NOT NULL,
-  characteristic_id INT NOT NULL,
-  review_id INT NOT NULL,
-  value INT NOT NULL,
+CREATE TABLE "characteristic_reviews" (
+  "id" int,
+  "characteristic_id" int,
+  "review_id" int,
+  "value" int,
   PRIMARY KEY(id),
   FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
