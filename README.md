@@ -8,7 +8,7 @@ This is the server and database for a single service which supports the retail w
 
 ## Atelier Reviews API
 
-### List Reviews
+### 1. List Reviews
 
 GET /reviews/
 
@@ -72,7 +72,7 @@ Response
 
 ---
 
-### Get Review Metadata
+### 2. Get Review Metadata
 
 GET /qa/questions/:question_id/answers
 
@@ -120,7 +120,7 @@ Response
 
 ---
 
-### Add a Review
+### 3. Add a Review
 
 > Adds a review for the given product.
 
@@ -145,7 +145,7 @@ Response
 
 ---
 
-### Mark Review as Helpful
+### 4. Mark Review as Helpful
 
 > Updates a review to show it was found helpful.
 
@@ -165,7 +165,7 @@ Response
 
 ---
 
-### Report Review
+### 5. Report Review
 
 > Updates a review to show it was reported. Note, this action does not delete the review, but the review will not be returned in the above GET request.
 

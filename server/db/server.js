@@ -5,16 +5,37 @@ const port = 3001;
 app.get('/', (req, res)=>{
   res.send('hello world!')
 })
+// Get Reviews
+app.get('/', (req, res) => {
+  res.send('get reviews')
+})
+// Get Metadata
+app.get('/meta', (req, res)=>{
+  res.send('get meta')
+})
+// Post review
+app.post('/', (req, res)=>{
+  res.send('post review')
+})
+// Mark review  as helpful
+app.put('/:review_id/helpful', (req, res) =>{
+  res.send('report review')
+})
+// Report review
+app.put('/:review_id/report', (req, res) =>{
+  res.send('report review')
+})
+
 
 app.listen(port, ()=>{
   console.log(`server listening at port http://localhost:${port}`);
 })
 
 
-var express = require('express');
-var axios = require('axios');
-var config = require('../client/config.js');
-var router = express.Router();
+// var express = require('express');
+// var axios = require('axios');
+// var config = require('../client/config.js');
+// var router = express.Router();
 
 // /* API Query Helper */
 // let APIQuery = function(method, endpath, query, data = null) {
