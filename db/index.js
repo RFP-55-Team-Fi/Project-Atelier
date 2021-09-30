@@ -18,20 +18,6 @@ pool.connect()
     console.log(err);
   });
 
-
-pool.connect((err, client, done) => {
-const query = `select * from products where id = 1`;
-  if (err) throw err;
-  pool.query(query, (err, res) => {
-      done();
-      if (err) {
-          console.log(err.stack);
-      } else {
-          for (let row of res.rows) {
-              console.log(row);
-          }
-      }
-  });
-});
-
-// module.exports= pool.connect()
+module.exports = {
+  pool
+}
