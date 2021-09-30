@@ -77,3 +77,9 @@ COPY characteristic_reviews
 FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristic_reviews.csv'
 DELIMITER ','
 CSV HEADER;
+
+-- select * from products;
+-- select * from reviews;
+-- select * from photos;
+-- select * from characteritics;
+-- select * from characteristic_reviews;
