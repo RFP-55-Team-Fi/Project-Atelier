@@ -3,7 +3,6 @@ module.exports = {
   getReviews: (req, res) => {
     let {product_id, count, page, sort} = req.query;
     page = page || 1; count = count || 5;
-    // console.log('product', product_id, 'page',page,'count', count, 'sort:', sort)
     const text = `select * from reviews where product_id = $1;`
     query(text, [product_id])
     .then((result) =>res.status(200).send(result.rows))
@@ -16,10 +15,21 @@ module.exports = {
 
   },
   markHelpfulReview: (req, res)=>{
-
+    const { review_id } = req.params;
+    const text = `update reviews set helpfulness = helpfulness + 1 where review_id = $1;`
+    query(text, [review_id])
+    .then(() => {console.log('success')})
+    .then(() => res.send(204))
+    .catch(err => console.log(err))
   },
   reportReview: (req, res) => {
-
+    const { review_id } = req.params;
+    const text = `update reviews set reported = 't' where review_id = $1;`
+    query(text, [review_id])
+    .then(() => {console.log('success')})
+    .then(() => res.send(204))
+    // .catch(err => console.log(err))
+    .catch(err => res.send(err))
   },
 
 }

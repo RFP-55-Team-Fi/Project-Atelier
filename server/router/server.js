@@ -2,7 +2,9 @@ const express = require('express');
 // const Router = require('express-promise-router')
 const app = express();
 const router = express.Router()
-const {getReviews} = require('../controller/queries.js');
+const {
+  getReviews, markHelpfulReview, reportReview
+} = require('../controller/queries.js');
 // const queries = require('../controller/queries')
 
 router.get('/', (req, res)=> {
@@ -19,13 +21,9 @@ router.post('/reviews', (req, res)=>{
   res.send('post review')
 })
 // Mark review  as helpful
-router.put('reviews/:review_id/helpful', (req, res) =>{
-  res.send('helpful review')
-})
+router.put('/reviews/:review_id/helpful', markHelpfulReview)
 // Report review
-router.put('reviews/:review_id/report', (req, res) =>{
-  res.send('report review ')
-})
+router.put('/reviews/:review_id/report', reportReview)
 
 
 module.exports = router;
