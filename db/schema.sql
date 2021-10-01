@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS characteristic_reviews;
 DROP TABLE IF EXISTS characteristics;
-DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS reviews_photos;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS products;
 
@@ -31,13 +31,20 @@ CREATE TABLE "reviews" (
   FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
-CREATE TABLE "photos" (
+CREATE TABLE "reviews_photos" (
   "id" int,
-  "product_id" int,
+  "review_id" int,
   "url" text,
-  "thumbnail_url" text,
   PRIMARY KEY(id),
-  FOREIGN KEY(product_id) REFERENCES reviews(review_id)
+  FOREIGN KEY (review_id) REFERENCES reviews(review_id)
+);
+-- CREATE TABLE "photos" (
+--   "id" int,
+--   "product_id" int,
+--   "url" text,
+--   "thumbnail_url" text,
+--   PRIMARY KEY(id),
+--   FOREIGN KEY(product_id) REFERENCES reviews(review_id)
 );
 
 CREATE TABLE "characteristics" (
@@ -61,18 +68,24 @@ COPY products
 FROM '/Users/aarontran/Documents/data/product.csv'
 DELIMITER ','
 CSV HEADER;
+
 COPY reviews
 FROM '/Users/aarontran/Documents/data/reviews.csv'
 DELIMITER ','
 CSV HEADER;
-COPY photos
-FROM '/Users/aarontran/Documents/data/photos.csv'
+
+COPY reviews_photos
+FROM '/Users/aarontran/Documents/data/reviews_photos.csv'
 DELIMITER ','
 CSV HEADER;
+-- COPY photos
+-- FROM '/Users/aarontran/Documents/data/photos.csv'
+-- DELIMITER ','
 COPY characteristics
 FROM '/Users/aarontran/Documents/data/characteristics.csv'
 DELIMITER ','
 CSV HEADER;
+
 COPY characteristic_reviews
 FROM '/Users/aarontran/Documents/data/characteristic_reviews.csv'
 DELIMITER ','

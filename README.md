@@ -74,7 +74,7 @@ Response
 
 ### 2. Get Review Metadata
 
-GET /qa/questions/:question_id/answers
+GET /reviews/meta
 
 > Returns review metadata for a given product.
 
