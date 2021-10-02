@@ -85,7 +85,7 @@ SELECT nextval('reviews_review_id_seq');
 
 -- Set Next ID Value to MAX ID
 SELECT setval('reviews_review_id_seq', (SELECT MAX(review_id) FROM reviews));
--- SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
+SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
 -- SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
 -- SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
