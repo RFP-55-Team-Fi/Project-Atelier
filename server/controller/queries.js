@@ -26,8 +26,10 @@ module.exports = {
     const text = `insert into reviews (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning review_id`;
     const text2 = `insert into characteristic_reviews (characteristic_id, review_id, value) values ($11, $11, $12)`;
     const text3 = `insert into reviews_photos (review_id, url) values ($1, $2) returning id;`;
-    const text4 = `insert into characteristics (product_id, name) values ($15, $16)`;
+    const text4 = `insert into characteristics (product_id, name) values ($1, $2)`;
     const isPhotos = photos.length > 0 ? true : false;
+    const isCharacteristicsExist = Object.keys(characteristics).length > 0;
+    console.log('isCharacteristics', isCharacteristicsExist)
     query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
     .then(result => {
       const { review_id } = result.rows[0];
@@ -37,8 +39,25 @@ module.exports = {
       console.log('CHARACTERISTICS', characteristics)
       if(isPhotos){
         photos.forEach(url => {
+          // insert into reviews_photos
           query(text3, [review_id, url])
-            .then(result => console.log(result, 'result from text 3'))
+            // .then(result => console.log(result, 'result from text 3'))
+            .then(result => {
+              const { id } = result.rows[0];
+              console.log(id, ' this is the reviews_photos primary id which we need to insert into char_reviews table')
+              if(isCharacteristicsExist){
+                for(const name in characteristics){
+                  //insert into characteristics
+                  query(text4, [product_id, name])
+                  .then(result=> {
+                    // insert into characteristic_reviews
+                    console.log(result)
+                  })
+                  .catch(err => console.log(err, 'err from text 4'))
+                }
+              }
+              // query(text4, [])
+            })
             .catch(err => console.log(err, 'err from text 3'))
         })
       }
