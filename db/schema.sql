@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS characteristic_reviews;
 DROP TABLE IF EXISTS characteristics;
 DROP TABLE IF EXISTS reviews_photos;
 DROP TABLE IF EXISTS reviews;
-DROP TABLE IF EXISTS products;
+-- DROP TABLE IF EXISTS products;
 
 -- CREATE TABLE "products" (
 --   "id" int,
@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS products;
 -- );
 
 CREATE TABLE "reviews" (
-  "review_id" serial primary key,
+  "review_id" serial,
   "product_id" int not null,
   "rating" int not null,
   "date" bigint not null,
@@ -26,8 +26,8 @@ CREATE TABLE "reviews" (
   "reviewer_name" varchar(255) not null,
   "reviewer_email" varchar(255) not null,
   "response" text default null,
-  "helpfulness" int default 0
-  -- PRIMARY KEY(review_id),
+  "helpfulness" int default 0,
+  PRIMARY KEY(review_id)
   -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
@@ -53,11 +53,22 @@ CREATE TABLE "characteristic_reviews" (
   "characteristic_id" INTEGER REFERENCES characteristics(id) ON DELETE CASCADE,
   "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
   "value" int,
-  PRIMARY KEY(id),
+  PRIMARY KEY(id)
   -- FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
   -- FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
+-- Get Max ID from table
+SELECT MAX(review_id) FROM reviews;
+
+-- Get Next ID from table
+SELECT nextval('reviews_review_id_seq');
+
+-- Set Next ID Value to MAX ID
+SELECT setval('reviews_review_id_seq', (SELECT MAX(review_id) FROM reviews));
+-- SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
+-- SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
+-- SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
 
 COPY reviews

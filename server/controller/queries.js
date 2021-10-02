@@ -1,7 +1,7 @@
 const { query } = require('../../db/index.js')
 module.exports = {
   getReviews: (req, res) => {
-    let { product_id, count, page, sort } = req.query;
+    let { product_id, count, page, sort } = req.body;
     page = page || 1; count = count || 5;
     const text = `select * from reviews where product_id = $1;`
     // const text =  SELECT reviews.id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 50
@@ -25,11 +25,13 @@ module.exports = {
      } = req.body;
      console.log('product_id:', product_id,'rating:', rating, 'summary',summary, 'body',body,
       recommend,':recommend', reviewer_name,':name', reviewer_email,':email', photos,':photos','characteristics:', characteristics, 'response:', response, 'date', date)
-    const text = `
-    insert into reviews
-    (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response)
-    values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
-    query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
+    // const text = `
+    // insert into reviews (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response)
+    // values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+    const text =
+    `INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, reported, helpfulness) VALUES (${product_id}, ${rating}, '${date}', '${summary}', '${body}', ${recommend}, '${reviewer_name}', '${reviewer_email}', false, 0)`;
+    // query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
+    query(text)
     .then(result => res.status(201).send(result))
     .catch(err => res.send(err))
 
