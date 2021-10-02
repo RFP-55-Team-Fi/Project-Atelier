@@ -25,18 +25,23 @@ module.exports = {
     const { product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics, response } = req.body;
     const text = `insert into reviews (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning review_id`;
     const text2 = `insert into characteristic_reviews (characteristic_id, review_id, value) values ($11, $11, $12)`;
-    const text3 = `insert into reviews_photos (review_id, url) values ($1, $2);`;
+    const text3 = `insert into reviews_photos (review_id, url) values ($1, $2) returning id;`;
     const text4 = `insert into characteristics (product_id, name) values ($15, $16)`;
     const isPhotos = photos.length > 0 ? true : false;
     query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
     .then(result => {
       const { review_id } = result.rows[0];
-      console.log(review_id)
-      console.log(text3)
-      console.log(photos, 'photos')
-      query(text3, [review_id, photos])
-        .then(result=> console.log(result, 'result from text 3'))
-        .catch(err => console.log(err, 'err from text 3'))
+      // iterate over photos array and add them to each url row.
+      // can i parse characteristics nested array and insert them at the same time as the photos?
+      // need to return new characteristics id and insert into characteristic_reviews
+      console.log('CHARACTERISTICS', characteristics)
+      if(isPhotos){
+        photos.forEach(url => {
+          query(text3, [review_id, url])
+            .then(result => console.log(result, 'result from text 3'))
+            .catch(err => console.log(err, 'err from text 3'))
+        })
+      }
     })
     .then(result => res.status(201).send(result))
     .catch(err => res.send(err))
@@ -55,10 +60,41 @@ module.exports = {
     query(text, [review_id])
       .then(() => {console.log('success')})
       .then(() => res.send(204))
-      // .catch(err => console.log(err))
       .catch(err => res.send(err))
   },
 
+}
+const meta = {
+  "product_id": "40344",
+  "ratings": {
+      "1": "7",
+      "2": "11",
+      "3": "12",
+      "4": "21",
+      "5": "92"
+  },
+  "recommended": {
+      "false": "32",
+      "true": "111"
+  },
+  "characteristics": {
+      "Fit": {
+          "id": 135219,
+          "value": "2.5000000000000000"
+      },
+      "Length": {
+          "id": 135220,
+          "value": "2.5757575757575758"
+      },
+      "Comfort": {
+          "id": 135221,
+          "value": "2.6562500000000000"
+      },
+      "Quality": {
+          "id": 135222,
+          "value": "2.9166666666666667"
+      }
+  }
 }
 
 // const view = {
@@ -102,35 +138,4 @@ module.exports = {
 //   ]
 // }
 
-// const meta = {
-//   "product_id": "40344",
-//   "ratings": {
-//       "1": "7",
-//       "2": "11",
-//       "3": "12",
-//       "4": "21",
-//       "5": "92"
-//   },
-//   "recommended": {
-//       "false": "32",
-//       "true": "111"
-//   },
-//   "characteristics": {
-//       "Fit": {
-//           "id": 135219,
-//           "value": "2.5000000000000000"
-//       },
-//       "Length": {
-//           "id": 135220,
-//           "value": "2.5757575757575758"
-//       },
-//       "Comfort": {
-//           "id": 135221,
-//           "value": "2.6562500000000000"
-//       },
-//       "Quality": {
-//           "id": 135222,
-//           "value": "2.9166666666666667"
-//       }
-//   }
-// }
+
