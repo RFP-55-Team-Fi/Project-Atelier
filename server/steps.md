@@ -10,4 +10,5 @@
 - \c <db name> connect to database
 - \i 'path to schema' to load schema file
 - \dt show tables
+- \di list indexes
 - drop database <table name>

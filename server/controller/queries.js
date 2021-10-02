@@ -25,12 +25,15 @@ module.exports = {
     const { product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics, response } = req.body;
     const text = `insert into reviews (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning review_id`;
     const text2 = `insert into characteristic_reviews (characteristic_id, review_id, value) values ($11, $11, $12)`;
-    const text3 = `insert into reviews_photos (review_id, url) values ($13, $14);`;
+    const text3 = `insert into reviews_photos (review_id, url) values ($1, $2);`;
     const text4 = `insert into characteristics (product_id, name) values ($15, $16)`;
     const isPhotos = photos.length > 0 ? true : false;
     query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
     .then(result => {
       const { review_id } = result.rows[0];
+      console.log(review_id)
+      console.log(text3)
+      console.log(photos, 'photos')
       query(text3, [review_id, photos])
         .then(result=> console.log(result, 'result from text 3'))
         .catch(err => console.log(err, 'err from text 3'))
