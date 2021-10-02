@@ -32,43 +32,29 @@ CREATE TABLE "reviews" (
 );
 
 CREATE TABLE "reviews_photos" (
-  "id" int,
+  "id" SERIAL primary key,
   -- "review_id" int,
   "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
-  "url" text,
-  PRIMARY KEY(id)
+  "url" text
   -- FOREIGN KEY (review_id) REFERENCES reviews(review_id)
 );
 
 CREATE TABLE "characteristics" (
-  "id" int,
+  "id" SERIAL primary key,
   "product_id" int not null,
-  "name" varchar,
-  PRIMARY KEY(id)
+  "name" varchar
   -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "characteristic_reviews" (
-  "id" int,
+  "id" SERIAL primary key,
   "characteristic_id" INTEGER REFERENCES characteristics(id) ON DELETE CASCADE,
   "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
-  "value" int,
-  PRIMARY KEY(id)
+  "value" int
   -- FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
   -- FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
--- Get Max ID from table
-SELECT MAX(review_id) FROM reviews;
-
--- Get Next ID from table
-SELECT nextval('reviews_review_id_seq');
-
--- Set Next ID Value to MAX ID
-SELECT setval('reviews_review_id_seq', (SELECT MAX(review_id) FROM reviews));
--- SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
--- SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
--- SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
 
 COPY reviews
@@ -91,6 +77,17 @@ FROM '/Users/aarontran/Documents/data/characteristic_reviews.csv'
 DELIMITER ','
 CSV HEADER;
 
+-- Get Max ID from table
+SELECT MAX(review_id) FROM reviews;
+
+-- Get Next ID from table
+SELECT nextval('reviews_review_id_seq');
+
+-- Set Next ID Value to MAX ID
+SELECT setval('reviews_review_id_seq', (SELECT MAX(review_id) FROM reviews));
+-- SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
+-- SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
+-- SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
 /************ below are head files ***********/
 
