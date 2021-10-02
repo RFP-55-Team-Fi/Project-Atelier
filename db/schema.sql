@@ -15,7 +15,7 @@ CREATE TABLE "products" (
 );
 
 CREATE TABLE "reviews" (
-  "review_id" int,
+  "review_id" serial primary key,
   "product_id" int,
   "rating" int,
   "date" bigint,
@@ -27,24 +27,17 @@ CREATE TABLE "reviews" (
   "reviewer_email" varchar(255),
   "response" text,
   "helpfulness" int,
-  PRIMARY KEY(review_id),
+  -- PRIMARY KEY(review_id),
   FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "reviews_photos" (
   "id" int,
-  "review_id" int,
+  -- "review_id" int,
+  "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
   "url" text,
-  PRIMARY KEY(id),
-  FOREIGN KEY (review_id) REFERENCES reviews(review_id)
-);
--- CREATE TABLE "photos" (
---   "id" int,
---   "product_id" int,
---   "url" text,
---   "thumbnail_url" text,
---   PRIMARY KEY(id),
---   FOREIGN KEY(product_id) REFERENCES reviews(review_id)
+  PRIMARY KEY(id)
+  -- FOREIGN KEY (review_id) REFERENCES reviews(review_id)
 );
 
 CREATE TABLE "characteristics" (
@@ -61,6 +54,7 @@ CREATE TABLE "characteristic_reviews" (
   "review_id" int,
   "value" int,
   PRIMARY KEY(id),
+  FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
   FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
@@ -77,10 +71,8 @@ CSV HEADER;
 COPY reviews_photos
 FROM '/Users/aarontran/Documents/data/reviews_photos.csv'
 DELIMITER ','
+
 CSV HEADER;
--- COPY photos
--- FROM '/Users/aarontran/Documents/data/photos.csv'
--- DELIMITER ','
 COPY characteristics
 FROM '/Users/aarontran/Documents/data/characteristics.csv'
 DELIMITER ','
@@ -90,24 +82,32 @@ COPY characteristic_reviews
 FROM '/Users/aarontran/Documents/data/characteristic_reviews.csv'
 DELIMITER ','
 CSV HEADER;
+
+
+/************ below are head files ***********/
+
 -- COPY products
--- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/products.csv'
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/db/head_csv/products.csv'
 -- DELIMITER ','
 -- CSV HEADER;
+
 -- COPY reviews
--- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/reviews.csv'
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/db/head_csv/reviews.csv'
 -- DELIMITER ','
 -- CSV HEADER;
--- COPY photos
--- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/photos.csv'
+
+-- COPY reviews_photos
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/db/head_csv/reviews_photos.csv'
 -- DELIMITER ','
 -- CSV HEADER;
+
 -- COPY characteristics
--- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristics.csv'
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/db/head_csv/characteristics.csv'
 -- DELIMITER ','
 -- CSV HEADER;
+
 -- COPY characteristic_reviews
--- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/server/db/characteristic_reviews.csv'
+-- FROM '/Users/aarontran/Documents/Hack/SDC/SDC-Ratings-Reviews/db/head_csv/characteristic_reviews.csv'
 -- DELIMITER ','
 -- CSV HEADER;
 

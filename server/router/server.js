@@ -3,23 +3,20 @@ const express = require('express');
 const app = express();
 const router = express.Router()
 const {
-  getReviews, markHelpfulReview, reportReview
+  getReviews, markHelpfulReview, reportReview, addReview, getMetadata
 } = require('../controller/queries.js');
 // const queries = require('../controller/queries')
 
 router.get('/', (req, res)=> {
   res.send('hello')
 })
-// Get Reviews //TODO will need to change endpoint for client
+//TODO CHANGE ENDPOINTS
+// Get Reviews
 router.get('/reviews', getReviews)
 // Get Metadata
-router.get('/reviews/meta', (req, res)=>{
-  res.send('get meta')
-})
+router.get('/reviews/meta', getMetadata)
 // Post review
-router.post('/reviews', (req, res)=>{
-  res.send('post review')
-})
+router.post('/reviews', addReview)
 // Mark review  as helpful
 router.put('/reviews/:review_id/helpful', markHelpfulReview)
 // Report review

@@ -4,37 +4,46 @@ module.exports = {
     let {product_id, count, page, sort} = req.query;
     page = page || 1; count = count || 5;
     const text = `select * from reviews where product_id = $1;`
+    // const text =  SELECT reviews.id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 50
+
     query(text, [product_id])
     .then((result) =>res.status(200).send(result.rows))
     .catch(err => console.log(err.stack))
   },
-  getMeta: (req, res) => {
-
+  getMetadata: (req, res) => {
+    const { product_id } = req.query;
+    // get ratings object
+    // with json_build
+    // get recommended object
+    // get characterisstics
   },
   addReview: (req, res) => {
-
+    const {
+      product_id, rating, summary, body,
+      recommend, name, email, photos, characteristics
+     } = req.query;
+     console.log('product_id:', product_id,'rating:', rating, 'summary',summary, 'body',body,
+      recommend,':recommend', name,':name', email,':email', photos,':photos','characteristics:', characteristics)
   },
   markHelpfulReview: (req, res)=>{
     const { review_id } = req.params;
     const text = `update reviews set helpfulness = helpfulness + 1 where review_id = $1;`
-    query(text, [review_id])
-    .then(() => {console.log('success')})
-    .then(() => res.send(204))
-    .catch(err => console.log(err))
+      query(text, [review_id])
+      .then(() => {console.log('success')})
+      .then(() => res.send(204))
+      .catch(err => console.log(err))
   },
   reportReview: (req, res) => {
     const { review_id } = req.params;
     const text = `update reviews set reported = 't' where review_id = $1;`
     query(text, [review_id])
-    .then(() => {console.log('success')})
-    .then(() => res.send(204))
-    // .catch(err => console.log(err))
-    .catch(err => res.send(err))
+      .then(() => {console.log('success')})
+      .then(() => res.send(204))
+      // .catch(err => console.log(err))
+      .catch(err => res.send(err))
   },
 
 }
-// SELECT reviews.id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness,
-//   json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 50
 
 const view = {
   "product": "2",
