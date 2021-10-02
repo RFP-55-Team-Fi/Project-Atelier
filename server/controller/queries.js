@@ -5,8 +5,7 @@ module.exports = {
     let { product_id, count, page, sort } = req.body;
     page = page || 1; count = count || 5;
     const text = `select * from reviews where product_id = $1;`
-    // const text =  SELECT reviews.id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 50
-    console.log(product_id)
+    // const text =  SELECT reviews.reviews_id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 10
     query(text, [product_id])
     .then((result) =>res.status(200).send(result.rows))
     .catch(err => console.log(err.stack))
@@ -14,6 +13,9 @@ module.exports = {
   getMetadata: (req, res) => {
     const { product_id } = req.query;
     // get ratings object
+    // const text = `SELECT json_build_objet(recommend, -- sum (case when recommend then 1 else 0 end) as recommend, json_build_object(not recommend, coalesce(sum(case when then 0 else 1 end), 0)) as notRecommend
+    // as ratings from reviews where product_id = 100 and reported = false
+    // group by name, characteristics
     // with json_build
     // get recommended object
     // get characterisstics
@@ -23,10 +25,9 @@ module.exports = {
     const { product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics, response } = req.body;
     const text = `insert into reviews (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response) values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning review_id`;
     const text2 = `insert into characteristic_reviews (characteristic_id, review_id, value) values ($11, $11, $12)`;
-    const text3 = `insert into reviews_photos (review_id, url) values ($1, $2);`;
+    const text3 = `insert into reviews_photos (review_id, url) values ($13, $14);`;
     const text4 = `insert into characteristics (product_id, name) values ($15, $16)`;
     const isPhotos = photos.length > 0 ? true : false;
-    console.log(isPhotos)
     query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
     .then(result => {
       const { review_id } = result.rows[0];

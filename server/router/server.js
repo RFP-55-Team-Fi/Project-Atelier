@@ -2,9 +2,7 @@ const express = require('express');
 // const Router = require('express-promise-router')
 const app = express();
 const router = express.Router()
-const {
-  getReviews, markHelpfulReview, reportReview, addReview, getMetadata
-} = require('../controller/queries.js');
+const { getReviews, markHelpfulReview, reportReview, addReview, getMetadata } = require('../controller/queries.js');
 // const queries = require('../controller/queries')
 
 router.get('/', (req, res)=> {
