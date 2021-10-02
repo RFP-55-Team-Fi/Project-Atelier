@@ -1,11 +1,11 @@
 const { query } = require('../../db/index.js')
 module.exports = {
   getReviews: (req, res) => {
-    let {product_id, count, page, sort} = req.query;
+    let { product_id, count, page, sort } = req.query;
     page = page || 1; count = count || 5;
     const text = `select * from reviews where product_id = $1;`
     // const text =  SELECT reviews.id AS review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date/1000) as date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', reviews_photos.id, 'url', reviews_photos.url)) AS photos FROM reviews LEFT JOIN reviews_photos ON reviews_photos.review_id = reviews.id WHERE product_id=40 AND reviews.reported=false GROUP BY reviews.id LIMIT 50
-
+    console.log(product_id)
     query(text, [product_id])
     .then((result) =>res.status(200).send(result.rows))
     .catch(err => console.log(err.stack))
@@ -18,19 +18,29 @@ module.exports = {
     // get characterisstics
   },
   addReview: (req, res) => {
+    const date = new Date().getTime().toString();
     const {
       product_id, rating, summary, body,
-      recommend, name, email, photos, characteristics
-     } = req.query;
+      recommend, reviewer_name, reviewer_email, photos, characteristics, response
+     } = req.body;
      console.log('product_id:', product_id,'rating:', rating, 'summary',summary, 'body',body,
-      recommend,':recommend', name,':name', email,':email', photos,':photos','characteristics:', characteristics)
+      recommend,':recommend', reviewer_name,':name', reviewer_email,':email', photos,':photos','characteristics:', characteristics, 'response:', response, 'date', date)
+    const text = `
+    insert into reviews
+    (product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response)
+    values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+    query(text, [product_id, rating, date, summary, body, recommend, reviewer_name, reviewer_email, response ])
+    .then(result => res.status(201).send(result))
+    .catch(err => res.send(err))
+
+
   },
   markHelpfulReview: (req, res)=>{
     const { review_id } = req.params;
     const text = `update reviews set helpfulness = helpfulness + 1 where review_id = $1;`
       query(text, [review_id])
       .then(() => {console.log('success')})
-      .then(() => res.send(204))
+      .then(() => res.sendStatus(204))
       .catch(err => console.log(err))
   },
   reportReview: (req, res) => {

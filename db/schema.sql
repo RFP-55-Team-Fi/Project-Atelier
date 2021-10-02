@@ -50,12 +50,12 @@ CREATE TABLE "characteristics" (
 
 CREATE TABLE "characteristic_reviews" (
   "id" int,
-  "characteristic_id" int,
-  "review_id" int,
+  "characteristic_id" INTEGER REFERENCES characteristics(id) ON DELETE CASCADE,
+  "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
   "value" int,
   PRIMARY KEY(id),
-  FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
-  FOREIGN KEY(review_id) REFERENCES reviews(review_id)
+  -- FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
+  -- FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
 
