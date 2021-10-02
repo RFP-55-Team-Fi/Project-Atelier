@@ -4,31 +4,31 @@ DROP TABLE IF EXISTS reviews_photos;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS products;
 
-CREATE TABLE "products" (
-  "id" int,
-  "name" varchar(255) not null,
-  "slogan" varchar(255),
-  "description" text,
-  "category" varchar(50),
-  "default_price" int,
-  PRIMARY KEY(id)
-);
+-- CREATE TABLE "products" (
+--   "id" int,
+--   "name" varchar(255) not null,
+--   "slogan" varchar(255),
+--   "description" text,
+--   "category" varchar(50),
+--   "default_price" int,
+--   PRIMARY KEY(id)
+-- );
 
 CREATE TABLE "reviews" (
   "review_id" serial primary key,
-  "product_id" int,
-  "rating" int,
-  "date" bigint,
-  "summary" text,
-  "body" text,
-  "recommend" boolean,
-  "reported" boolean,
-  "reviewer_name" varchar(255),
-  "reviewer_email" varchar(255),
-  "response" text,
-  "helpfulness" int,
+  "product_id" int not null,
+  "rating" int not null,
+  "date" bigint not null,
+  "summary" text not null,
+  "body" text not null,
+  "recommend" boolean default false,
+  "reported" boolean default false,
+  "reviewer_name" varchar(255) not null,
+  "reviewer_email" varchar(255) not null,
+  "response" text default null,
+  "helpfulness" int default 0
   -- PRIMARY KEY(review_id),
-  FOREIGN KEY(product_id) REFERENCES products(id)
+  -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "reviews_photos" (
@@ -42,10 +42,10 @@ CREATE TABLE "reviews_photos" (
 
 CREATE TABLE "characteristics" (
   "id" int,
-  "product_id" int,
+  "product_id" int not null,
   "name" varchar,
-  PRIMARY KEY(id),
-  FOREIGN KEY(product_id) REFERENCES products(id)
+  PRIMARY KEY(id)
+  -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "characteristic_reviews" (
@@ -58,10 +58,7 @@ CREATE TABLE "characteristic_reviews" (
   FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
-COPY products
-FROM '/Users/aarontran/Documents/data/product.csv'
-DELIMITER ','
-CSV HEADER;
+
 
 COPY reviews
 FROM '/Users/aarontran/Documents/data/reviews.csv'
