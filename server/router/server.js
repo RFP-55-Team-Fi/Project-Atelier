@@ -6,7 +6,6 @@ const router = express.Router();
 // const db = require("../controller/queries.js");
 const db = require("../db/backup.js");
 // const queries = require('../controller/queries')
-console.log(db, 'DB')
 router.get("/", (req, res) => {
   res.send("hello");
 });
@@ -14,7 +13,7 @@ router.get("/", (req, res) => {
 // Get Reviews
 router.get("/reviews", (req, res) => {
   db.getReviews(req.query)
-    .then((result) => res.send(result))
+    .then((result) => res.status(200).send(result))
     .catch((err) => res.send(err));
 });
 // Get Metadata
@@ -27,12 +26,13 @@ router.get("/reviews/meta", (req, res) => {
 router.post("/reviews", (req, res) => {
   console.log(req.body);
   db.addReview(req.body)
-    .then((result) => res.sendStatus(201))
+    .then((result) => console.log(result))
+    .then(() => res.sendStatus(201))
     .catch((err) => res.send(err));
 });
 // Mark review  as helpful
 router.put("/reviews/:review_id/helpful", (req, res) => {
-  db.markHelpfulReview(req)
+  db.markHelpfulReview(req.query)
     .then((result) => res.send(result))
     .catch((err) => res.send(err));
 });
