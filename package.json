@@ -4,9 +4,7 @@
   "description": "sdc",
   "main": "server/db/server.js",
   "dependencies": {
-    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
     "nodemon": "^2.0.13",
@@ -25,5 +23,16 @@
   "bugs": {
     "url": "https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews/issues"
   },
-  "homepage": "https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews#readme"
+  "homepage": "https://github.com/RFP-55-Team-Fi/SDC-Ratings-Reviews#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.4.1"
+  }
 }
