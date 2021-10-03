@@ -1,24 +1,37 @@
-const express = require('express');
+const express = require("express");
 // const Router = require('express-promise-router')
 const app = express();
-const router = express.Router()
-const { getReviews, markHelpfulReview, reportReview, addReview, getMetadata } = require('../controller/queries.js');
+const router = express.Router();
+const db = require("../controller/queries.js");
 // const queries = require('../controller/queries')
 
-router.get('/', (req, res)=> {
-  res.send('hello')
-})
+router.get("/", (req, res) => {
+  res.send("hello");
+});
 //TODO CHANGE ENDPOINTS
 // Get Reviews
-router.get('/reviews', getReviews)
+router.get("/reviews", (req, res) => {
+  db.getReviews(req.query)
+    .then((result) => res.send(result))
+    .catch((err) => res.send(err));
+});
 // Get Metadata
-router.get('/reviews/meta', getMetadata)
+router.get("/reviews/meta", (req, res) => {
+  db.getMetadata(input);
+});
 // Post review
-router.post('/reviews', addReview)
+router.post("/reviews", (req, res) => {
+  db.addReview(input)
+    .then((result) => res.send(result))
+    .catch((err) => res.send(err));
+});
 // Mark review  as helpful
-router.put('/reviews/:review_id/helpful', markHelpfulReview)
+router.put("/reviews/:review_id/helpful", (req, res) => {
+  db.markHelpfulReview(input);
+});
 // Report review
-router.put('/reviews/:review_id/report', reportReview)
-
+router.put("/reviews/:review_id/report", (req, res) => {
+  db.reportReview(input);
+});
 
 module.exports = router;
