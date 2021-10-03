@@ -3,9 +3,10 @@ const express = require("express");
 // const Router = require('express-promise-router')
 // const app = express();
 const router = express.Router();
-const db = require("../controller/queries.js");
+// const db = require("../controller/queries.js");
+const db = require("../db/backup.js");
 // const queries = require('../controller/queries')
-
+console.log(db, 'DB')
 router.get("/", (req, res) => {
   res.send("hello");
 });

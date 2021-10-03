@@ -24,9 +24,8 @@ const insertIntoCharacteristicsTable = (characteristics, product_id, name) => {
         );
       })
       .catch((err) => console.log(err, "err from text 4"));
-  })
+  });
 };
-
 
 const getReviews = (req) => {
   let { product_id, count, page, sort } = req;
@@ -39,7 +38,7 @@ const getReviews = (req) => {
     .then((result) => result.rows)
     .catch((err) => err.stack);
 };
-//
+
 const addReview = (req) => {
   const date = new Date().getTime().toString();
   const {
@@ -65,7 +64,7 @@ const addReview = (req) => {
       console.log("review_id", review_id);
       if (isCharacteristicsExist) {
         for (const number in characteristics)
-        insertIntoCharacteristics_reviews(review_id, )
+        insertIntoCharacteristics_reviews(review_id)
       }
     })
     .catch((err) => console.log(err));
