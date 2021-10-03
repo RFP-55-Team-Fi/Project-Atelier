@@ -1,4 +1,3 @@
-
 /* eslint-disable import/extensions */
 const { query } = require("../../db/index.js");
 

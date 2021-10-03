@@ -2,17 +2,6 @@ DROP TABLE IF EXISTS characteristic_reviews;
 DROP TABLE IF EXISTS characteristics;
 DROP TABLE IF EXISTS reviews_photos;
 DROP TABLE IF EXISTS reviews;
--- DROP TABLE IF EXISTS products;
-
--- CREATE TABLE "products" (
---   "id" int,
---   "name" varchar(255) not null,
---   "slogan" varchar(255),
---   "description" text,
---   "category" varchar(50),
---   "default_price" int,
---   PRIMARY KEY(id)
--- );
 
 CREATE TABLE "reviews" (
   "review_id" serial,
@@ -28,22 +17,18 @@ CREATE TABLE "reviews" (
   "response" text default null,
   "helpfulness" int default 0,
   PRIMARY KEY(review_id)
-  -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "reviews_photos" (
   "id" SERIAL primary key,
-  -- "review_id" int,
   "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
   "url" text
-  -- FOREIGN KEY (review_id) REFERENCES reviews(review_id)
 );
 
 CREATE TABLE "characteristics" (
   "id" SERIAL primary key,
   "product_id" int not null,
   "name" varchar
-  -- FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
 CREATE TABLE "characteristic_reviews" (
@@ -51,11 +36,9 @@ CREATE TABLE "characteristic_reviews" (
   "characteristic_id" INTEGER REFERENCES characteristics(id) ON DELETE CASCADE,
   "review_id" INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
   "value" int
-  -- FOREIGN KEY(characteristic_id) REFERENCES characteristics(id),
-  -- FOREIGN KEY(review_id) REFERENCES reviews(review_id)
 );
 
-
+-- Copy From Extracted Data
 
 COPY reviews
 FROM '/Users/aarontran/Documents/data/reviews.csv'
@@ -89,6 +72,23 @@ SELECT setval('reviews_photos_id_seq', (SELECT MAX(id) FROM reviews_photos));
 SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
 SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
+-- Drop Indexes
+-- DROP INDEX idx_review_id;
+-- DROP INDEX idx_reviews_photos_id;
+-- DROP INDEX idx_characteristics_id;
+-- DROP INDEX idx_characteristic_reviews_id;
+
+-- Create BTREE Indexes
+-- CREATE INDEX idx_review_id ON public.reviews USING btree (product_id);
+-- CREATE INDEX idx_characteristics_id ON public.characteristics USING btree (product_id);
+-- CREATE INDEX idx_characteristic_reviews_id ON public.characteristic_reviews USING btree (review_id);
+-- CREATE INDEX idx_reviews_photos_id ON public.reviews_photos USING btree (review_id);
+
+-- Create HASH Indexes
+CREATE INDEX idx_review_id ON public.reviews USING hash (product_id);
+CREATE INDEX idx_characteristics_id ON public.characteristics USING hash (product_id);
+CREATE INDEX idx_characteristic_reviews_id ON public.characteristic_reviews USING hash (review_id);
+CREATE INDEX idx_reviews_photos_id ON public.reviews_photos USING hash (review_id);
 /************ below are head files ***********/
 
 -- COPY products
