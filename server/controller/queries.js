@@ -114,7 +114,7 @@ const getMetadata = (req, res) => {
 
 const markHelpfulReview = (req, res) => {
   const { review_id } = req.params;
-  const text = `explain analyze update reviews set helpfulness = helpfulness + 1 where review_id = $1;`;
+  const text = `update reviews set helpfulness = helpfulness + 1 where review_id = $1;`;
   query(text, [review_id])
     .then(() => {
       console.log("success");
