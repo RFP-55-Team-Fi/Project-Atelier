@@ -1,7 +1,6 @@
 // const { Pool } = require("pg");
 const { pool } = require("../../db/index.js");
 
-// ===================== GET '/reviews/' ROUTES =====================>
 // GET: /reviews - check
 // function getReviews
 // function get photos
@@ -86,7 +85,7 @@ const getReviews = (params) => {
     .catch((err) => console.error(err));
 };
 
-// ===================== GET '/reviews/meta' ROUTES =====================>
+
 
 // Get all ratings of a given productID
 const getRatings = (product_id) => {
@@ -250,7 +249,6 @@ const getMetadata = (params) => {
     .catch((err) => console.error(err));
 };
 
-// ===================== POST '/reviews/' ROUTES =====================>
 
 // Update reviews table
 const addToReviewTable = (params) => {
