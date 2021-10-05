@@ -73,10 +73,10 @@ SELECT setval('characteristics_id_seq', (SELECT MAX(id) FROM characteristics));
 SELECT setval('characteristic_reviews_id_seq', (SELECT MAX(id) FROM characteristic_reviews));
 
 -- Drop Indexes
--- DROP INDEX idx_review_id;
--- DROP INDEX idx_reviews_photos_id;
--- DROP INDEX idx_characteristics_id;
--- DROP INDEX idx_characteristic_reviews_id;
+DROP INDEX idx_review_id;
+DROP INDEX idx_reviews_photos_id;
+DROP INDEX idx_characteristics_id;
+DROP INDEX idx_characteristic_reviews_id;
 
 -- Create BTREE Indexes
 -- CREATE INDEX idx_review_id ON public.reviews USING btree (product_id);
@@ -122,3 +122,22 @@ CREATE INDEX idx_reviews_photos_id ON public.reviews_photos USING hash (review_i
 -- select * from characteritics;
 -- select * from characteristic_reviews;
 
+--  setval
+-- ---------
+--  5774952
+-- (1 row)
+
+--  setval
+-- ---------
+--  2742540
+-- (1 row)
+
+--  setval
+-- ---------
+--  3347679
+-- (1 row)
+
+--   setval
+-- ----------
+--  19327575
+-- (1 row)

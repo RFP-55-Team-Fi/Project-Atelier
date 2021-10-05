@@ -9,3 +9,5 @@ products.csv
 reviews.csv
 reviews_photos.csv
 backup.js
+sdc-fi.pem
+postgresDump.sql

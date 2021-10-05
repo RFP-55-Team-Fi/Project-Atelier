@@ -5,14 +5,14 @@ import { sleep, check } from "k6";
 
 const { server_port } = require("./db/config.js");
 // Test Constant VUs/Time
-// export const options = {
-//   thresholds: {
-//     http_req_failed: ["rate<0.01"], // http errors should be less than 1%
-//     http_req_duration: ["p(95)<200"], // 95% of requests should be below 200ms
-//   },
-//   vus: 250,
-//   duration: "30s",
-// };
+export const options = {
+  thresholds: {
+    http_req_failed: ["rate<0.01"], // http errors should be less than 1%
+    http_req_duration: ["p(95)<200"], // 95% of requests should be below 200ms
+  },
+  vus: 250,
+  duration: "30s",
+};
 
 // Test Ramp
 // export const options = {
@@ -34,7 +34,7 @@ export default function () {
   //
   const res = http.get(`http://localhost:3001/reviews/`);
   check(res, { "status was 200": (r) => r.status === 200 });
-    console.log(`Response time was ${String(res.timings.duration)}`);
+    // console.log(`Response time was ${String(res.timings.duration)}`);
   sleep(1);
 }
 
