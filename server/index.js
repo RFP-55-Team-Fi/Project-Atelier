@@ -1,5 +1,5 @@
 const express = require('express');
-const Router = require('express-promise-router')
+// const Router = require('express-promise-router')
 const { pool } = require('../db/index.js')
 const app = express();
 const port = 3001;

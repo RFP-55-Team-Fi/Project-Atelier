@@ -4,9 +4,7 @@
   "description": "sdc",
   "main": "server/db/server.js",
   "dependencies": {
-    "eslint-config-airbnb-base": "^14.2.1",
     "express": "^4.17.1",
-    "express-promise-router": "^4.1.0",
     "nodemon": "^2.0.13",
     "pg": "^8.7.1"
   },
