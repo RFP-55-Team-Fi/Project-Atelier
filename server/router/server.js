@@ -33,7 +33,7 @@ router.post("/reviews", (req, res) => {
   db.addReview(req.body)
     // .then((result) => console.log(result))
     .then(() => res.sendStatus(201))
-    .catch((err) => res.send(err));
+    .catch((err) => res.status(500).send(err));
 });
 // Mark review  as helpful
 router.put("/reviews/:review_id/helpful/", (req, res) => {
@@ -47,7 +47,7 @@ router.put("/reviews/:review_id/report", (req, res) => {
   const { review_id } = req.params;
   db.reportReview(review_id)
     .then(() => res.sendStatus(204))
-    .catch((err) => res.send(err));
+    .catch(() => res.send(500));
 });
 
 module.exports = router;

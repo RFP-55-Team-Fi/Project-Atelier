@@ -40,7 +40,7 @@ const getPhotos = (reviewIDs) => {
           }
           return photos.rows;
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.log(err))
       // .catch((err) => err)
     );
   }
@@ -82,9 +82,9 @@ const getReviews = (params) => {
           }
           return productReview;
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 // Get all ratings of a given productID
@@ -115,7 +115,7 @@ const getRatings = (product_id) => {
       // const newLocal = finishTime - startTime;
       // console.log(`Time taken:${newLocal}ms`);
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
   //     let startTime = Date.now();
   // timeTest().then(() => {
   //   let finishTime = Date.now();
@@ -147,7 +147,7 @@ const getRecommended = (productID) => {
 
       return recommended;
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 // Gets all review IDs
@@ -162,7 +162,7 @@ const getReviewIDs = (productID) => {
       // console.log(reviewIDs)
       return reviewIDs;
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 // Gets characteristic_id and values for given review_id
@@ -184,7 +184,7 @@ const getCharValues = (reviewIDs) => {
 
         return charValues;
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   }
 };
 
@@ -213,11 +213,11 @@ const getCharacteristics = (productID) => {
               }
               return characteristics;
             })
-            .catch((err) => console.error(err))
+            .catch((err) => console.log(err))
         )
-        .catch((err) => console.error(err));
+        .catch((err) => console.log(err));
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 // Gets review metadata for given product_id
@@ -248,7 +248,7 @@ const getMetadata = (params) => {
         return metadata;
       })
     )
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 
@@ -280,7 +280,7 @@ const getLatestReviewID = () => {
   return pool
     .query(query)
     .then((response) => response.rows[0].review_id)
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
 };
 
 // Update photo table
@@ -293,9 +293,9 @@ const addToPhotoTable = (url) => {
       .then((id) => {
         const query = `INSERT INTO reviews_photos(review_id, url) VALUES ($1, $2)`;
         const values = [id, url];
-        return pool.query(query, values).catch((err) => console.error(err));
+        return pool.query(query, values).catch((err) => console.log(err));
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.log(err));
   }
 };
 
@@ -309,16 +309,16 @@ const addToCharReviews = (chars) => {
       for (let i = 0; i < charIDs.length; i++) {
         const query = `INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES ($1 ,$2 ,$3)`;
         const values = [charIDs[i], id, charVals[i]];
-        addToCharReviewsTablePromise.push(pool.query(query, values).catch((err) => console.error(err)));
+        addToCharReviewsTablePromise.push(pool.query(query, values).catch((err) => console.log(err)));
       }
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.log(err));
   return Promise.all(addToCharReviewsTablePromise);
   // .then((id) => {
   //   const testPromise = charIDs.map((charID, i) => {
   //     const query = `INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES ($1 ,$2 ,$3)`;
   //     const values = [charIDs[i], id, charVals[i]];
-  //     addToCharReviewsTablePromise.push(pool.query(query, values).catch((err) => console.error(err)));
+  //     addToCharReviewsTablePromise.push(pool.query(query, values).catch((err) => console.log(err)));
   //   })
   //   return Promise.all(testPromise);
   // });
@@ -329,7 +329,7 @@ const addToCharReviews = (chars) => {
 //   addToReviewTable(params)
 //  .then(() => addToPhotoTable(params.photos)
 //  .then(() =>addToCharReviews(params.characteristics)
-//  .catch((err) => console.error(err)
+//  .catch((err) => console.log(err)
 //       )
 //     )
 //   );
@@ -348,16 +348,14 @@ const addReview = async (params) => {
 const markHelpfulReview = (review_id) => {
   // console.log("function markHelpfulReview ");
   const query = `UPDATE reviews SET helpfulness = helpfulness + 1 WHERE review_id = $1`;
-  return pool
-    .query(query, [review_id])
-    // .then((res) => res)
-    .catch((err) => err);
+  return pool.query(query, [review_id]).then((res) => res);
+  // .catch((err) => console.log(err));
 };
 
 const reportReview = (review_id) => {
   // console.log("function reportreview");
   const query = `UPDATE reviews SET reported = true WHERE review_id = $1`;
-  return pool.query(query, [review_id]).catch((err) => console.error(err));
+  return pool.query(query, [review_id]).catch((err) => console.log(err));
 };
 
 module.exports = {
