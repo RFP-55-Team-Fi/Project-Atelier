@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "nodemon server",
-    "start:prod": "node index.js",
+    "start:prod": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
