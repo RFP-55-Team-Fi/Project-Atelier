@@ -1,14 +1,14 @@
 /* eslint-disable import/extensions */
 const express = require("express");
-// const Router = require('express-promise-router')
-// const app = express();
 const router = express.Router();
 const db = require("../controller/index.js");
-// const db = require("../controller/queries.js");
-// const db = require("../db/backup.js");
-// const queries = require('../controller/queries')
+const { loader_token, loader_endpoint } = require("../../db/config.js");
+console.log(loader_token, loader_endpoint);
 router.get("/", (req, res) => {
-  res.send("hello");
+  res.send("Ready");
+});
+router.get(`/${loader_endpoint}`, (req, res) => {
+  res.send(loader_token);
 });
 // TODO CHANGE ENDPOINTS
 // GET: /reviews
