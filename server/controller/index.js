@@ -41,7 +41,7 @@ const getPhotos = (reviewIDs) => {
           return photos.rows;
         })
         .catch((err) => console.error(err))
-        // .catch((err) => err)
+      // .catch((err) => err)
     );
   }
 
@@ -51,8 +51,10 @@ const getPhotos = (reviewIDs) => {
 // Gets all reviews for given product_id
 const getReviews = (params) => {
   // console.log("function getReviews");
+  // Generate random num in last 10% of products IDs (1000011)
+  const randomID = Math.floor(Math.random() * (1000000 - 900000 + 1)) + 900000;
   const { page, count } = params;
-  const productID = params.product_id || 18;
+  const productID = params.product_id || randomID;
   const reviewIDsArr = [];
   const query = `SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = $1`;
 
@@ -84,8 +86,6 @@ const getReviews = (params) => {
     })
     .catch((err) => console.error(err));
 };
-
-
 
 // Get all ratings of a given productID
 const getRatings = (product_id) => {
@@ -223,18 +223,20 @@ const getCharacteristics = (productID) => {
 // Gets review metadata for given product_id
 const getMetadata = (params) => {
   // console.log("function getMetaData");
-  const product_id = params.product_id || 18;
+  // Generate random num in last 10% of products IDs (1000011)
+  const randomID = Math.floor(Math.random() * (1000000 - 900000 + 1)) + 900000;
+  const product_id = params.product_id || randomID;
   const metadata = {
     product: product_id,
   };
   // const startTime = Date.now()
   return getRatings(product_id)
     .then((ratingsMeta) => {
-      metadata.ratings = ratingsMeta; // values need to be wrapped in double quotes
+      metadata.ratings = ratingsMeta;
     })
     .then(() =>
       getRecommended(product_id).then((data) => {
-        metadata.recommended = data; // values need to be wrapped in double quotes
+        metadata.recommended = data;
       })
     )
     .then(() =>

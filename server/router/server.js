@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../controller/index.js");
 const { loader_token, loader_endpoint } = require("../../db/config.js");
-console.log(loader_token, loader_endpoint);
 router.get("/", (req, res) => {
   res.send("Ready");
 });
@@ -18,7 +17,7 @@ router.get(`/${loader_endpoint}`, (req, res) => {
 // PUT: /reviews/:review_id/report
 
 // Get Reviews
-router.get("/reviews", (req, res) => {
+router.get("/reviews/", (req, res) => {
   db.getReviews(req.query)
     .then((result) => res.status(200).send(result))
     .catch((err) => res.send(err));
@@ -32,7 +31,7 @@ router.get("/reviews/meta", (req, res) => {
 // Post review
 router.post("/reviews", (req, res) => {
   db.addReview(req.body)
-    .then((result) => console.log(result))
+    // .then((result) => console.log(result))
     .then(() => res.sendStatus(201))
     .catch((err) => res.send(err));
 });
