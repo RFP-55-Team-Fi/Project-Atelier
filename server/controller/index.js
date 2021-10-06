@@ -26,7 +26,7 @@ const { pool } = require("../../db/index.js");
 
 // Gets photo_id and url for every review_id
 const getPhotos = (reviewIDs) => {
-  console.log("function get photos");
+  // console.log("function get photos");
   const photosPromises = [];
   for (let i = 0; i < reviewIDs.length; i++) {
     // const query = `SELECT id, url FROM reviews_photos WHERE review_id = ${reviewIDs[i]}`;
@@ -50,7 +50,7 @@ const getPhotos = (reviewIDs) => {
 
 // Gets all reviews for given product_id
 const getReviews = (params) => {
-  console.log("function getReviews");
+  // console.log("function getReviews");
   const { page, count } = params;
   const productID = params.product_id || 18;
   const reviewIDsArr = [];
@@ -89,10 +89,10 @@ const getReviews = (params) => {
 
 // Get all ratings of a given productID
 const getRatings = (product_id) => {
-  console.log("function getRatings");
+  // console.log("function getRatings");
   const ratings = {};
   const query = `SELECT rating FROM reviews WHERE product_id = $1`;
-  const startTime = Date.now();
+  // const startTime = Date.now();
   return pool
     .query(query, [product_id])
     .then((response) => {
@@ -111,9 +111,9 @@ const getRatings = (product_id) => {
       return ratings;
     })
     .then(() => {
-      const finishTime = Date.now();
-      const newLocal = finishTime - startTime;
-      console.log(`Time taken:${newLocal}ms`);
+      // const finishTime = Date.now();
+      // const newLocal = finishTime - startTime;
+      // console.log(`Time taken:${newLocal}ms`);
     })
     .catch((err) => console.error(err));
   //     let startTime = Date.now();
@@ -126,7 +126,7 @@ const getRatings = (product_id) => {
 
 // Gets number of recommended input for a given productID
 const getRecommended = (productID) => {
-  console.log("function getRecommended");
+  // console.log("function getRecommended");
   const recommended = {};
   const query = `SELECT recommend FROM reviews WHERE product_id = $1`;
   return pool
@@ -152,14 +152,14 @@ const getRecommended = (productID) => {
 
 // Gets all review IDs
 const getReviewIDs = (productID) => {
-  console.log("getReviewIDs");
+  // console.log("getReviewIDs");
   const reviewIDs = [];
   const query = `SELECT review_id FROM reviews WHERE product_id = $1`;
   return pool
     .query(query, [productID])
     .then((response) => {
       response.rows.map((review) => reviewIDs.push(review.review_id));
-      console.log(reviewIDs)
+      // console.log(reviewIDs)
       return reviewIDs;
     })
     .catch((err) => console.error(err));
@@ -167,7 +167,7 @@ const getReviewIDs = (productID) => {
 
 // Gets characteristic_id and values for given review_id
 const getCharValues = (reviewIDs) => {
-  console.log("function getCharValues");
+  // console.log("function getCharValues");
   const charValues = [];
   for (let i = 0; i < reviewIDs.length; i++) {
     const query = `SELECT characteristic_id, value FROM characteristic_reviews WHERE review_id = $1`;
@@ -190,7 +190,7 @@ const getCharValues = (reviewIDs) => {
 
 // Retrieves characteristics of a given product
 const getCharacteristics = (productID) => {
-  console.log("function get Characteristics");
+  // console.log("function get Characteristics");
   const characteristics = {};
   const charNameQuery = `SELECT name FROM characteristics WHERE product_id = $1`;
 
@@ -222,12 +222,12 @@ const getCharacteristics = (productID) => {
 
 // Gets review metadata for given product_id
 const getMetadata = (params) => {
-  console.log("function getMetaData");
+  // console.log("function getMetaData");
   const product_id = params.product_id || 18;
   const metadata = {
     product: product_id,
   };
-  const startTime = Date.now()
+  // const startTime = Date.now()
   return getRatings(product_id)
     .then((ratingsMeta) => {
       metadata.ratings = ratingsMeta; // values need to be wrapped in double quotes
@@ -240,9 +240,9 @@ const getMetadata = (params) => {
     .then(() =>
       getCharacteristics(product_id).then((data) => {
         metadata.characteristics = data;
-        const finishTime = Date.now();
-        const newLocal = finishTime - startTime;
-        console.log(`Time taken:${newLocal}ms`);
+        // const finishTime = Date.now();
+        // const newLocal = finishTime - startTime;
+        // console.log(`Time taken:${newLocal}ms`);
         return metadata;
       })
     )
@@ -252,7 +252,7 @@ const getMetadata = (params) => {
 
 // Update reviews table
 const addToReviewTable = (params) => {
-  console.log('function addToReviewTable')
+  // console.log('function addToReviewTable')
   const { product_id, rating, summary, body, reviewer_name, reviewer_email } =
     params;
   const date = new Date().getTime().toString();
@@ -273,7 +273,7 @@ const addToReviewTable = (params) => {
 
 // Gets the most recent review_id
 const getLatestReviewID = () => {
-  console.log("function get latest review ID");
+  // console.log("function get latest review ID");
   const query = "SELECT review_id FROM reviews ORDER BY review_id DESC LIMIT 1";
   return pool
     .query(query)
@@ -284,7 +284,7 @@ const getLatestReviewID = () => {
 // Update photo table
 const addToPhotoTable = (url) => {
   // fill block for case of no photo
-  console.log("function add to photos table ");
+  // console.log("function add to photos table ");
   if (!url) {
   } else {
     return getLatestReviewID()
@@ -353,7 +353,7 @@ const markHelpfulReview = (review_id) => {
 };
 
 const reportReview = (review_id) => {
-  console.log("function reportreview");
+  // console.log("function reportreview");
   const query = `UPDATE reviews SET reported = true WHERE review_id = $1`;
   return pool.query(query, [review_id]).catch((err) => console.error(err));
 };
