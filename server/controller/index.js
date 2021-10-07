@@ -285,9 +285,9 @@ const getLatestReviewID = () => {
 
 // Update photo table
 const addToPhotoTable = (url) => {
-  // fill block for case of no photo
   // console.log("function add to photos table ");
   if (!url) {
+    // fill block for case of no photo
   } else {
     return getLatestReviewID()
       .then((id) => {
@@ -306,14 +306,19 @@ const addToCharReviews = (chars) => {
   const addToCharReviewsTablePromise = [];
   getLatestReviewID()
     .then((id) => {
+      // console.log(id)
       for (let i = 0; i < charIDs.length; i++) {
         const query = `INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES ($1 ,$2 ,$3)`;
         const values = [charIDs[i], id, charVals[i]];
-        addToCharReviewsTablePromise.push(pool.query(query, values).catch((err) => console.log(err)));
+        // console.log(values)
+        addToCharReviewsTablePromise.push(
+          pool.query(query, values).catch((err) => console.log(err))
+        );
       }
     })
     .catch((err) => console.log(err));
   return Promise.all(addToCharReviewsTablePromise);
+  // ---------
   // .then((id) => {
   //   const testPromise = charIDs.map((charID, i) => {
   //     const query = `INSERT INTO characteristic_reviews(characteristic_id, review_id, value) VALUES ($1 ,$2 ,$3)`;
